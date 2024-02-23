@@ -1,27 +1,29 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { CircularProgress } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import { MainPageWrapper } from './styled';
 import QuizCard from '../../components/Card/Card';
-import creativeCards from '../../api/services/creativeCards';
+import { quizesThunk } from '../../store/sources/quizes';
 
-const MainPage = ({ searchValue }) => {
-  const [cards, setCards] = useState([]);
+const MainPage = () => {
+  const { cards, loading, filter } = useSelector((state) => state.quizesReducer);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    creativeCards.get()
-      .then((data) => {
-        setCards(data);
-        return data;
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    dispatch(quizesThunk.fetchData());
+  }, [dispatch]);
 
   const filteredCards = useMemo(() => {
-    if (!searchValue) {
+    if (!filter) {
       return cards;
     }
 
-    return cards.filter((card) => card.title.toLowerCase().includes(searchValue.toLowerCase()));
-  }, [searchValue, cards]);
+    return cards.filter((card) => card.title.toLowerCase().includes(filter.toLowerCase()));
+  }, [filter, cards]);
+
+  if (loading) {
+    return <CircularProgress />;
+  }
 
   return (
     <MainPageWrapper>
