@@ -5,13 +5,13 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Sidebar from '../Sidebar/Sidebar';
 
-const Templates = ({ handleInputChange }) => (
+const Templates = () => (
   <Grid container>
     <Grid item xs={12}>
       <Header />
     </Grid>
     <Grid item xs={3}>
-      <Sidebar handleInputChange={handleInputChange} />
+      <Sidebar />
     </Grid>
     <Grid item xs={9}>
       <Outlet />

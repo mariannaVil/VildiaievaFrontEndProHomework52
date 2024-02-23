@@ -16,4 +16,4 @@ const creativeCards = {
   },
 };
 
-export default creativeCards;
+export default { creativeCards };
